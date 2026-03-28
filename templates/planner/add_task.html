@@ -1,5 +1,5 @@
 {% extends 'planner/base.html' %}
-{% block title %}{% if editing %}Edit Task{% else %}Add Task{% endif %} - PW Study{% endblock %}
+{% block title %}{% if editing %}Edit Task{% else %}Add Task{% endif %} - Giggle Planet Study{% endblock %}
 {% block header_title %}{% if editing %}Edit Task ✏️{% else %}Add Task ➕{% endif %}{% endblock %}
 {% block header_subtitle %}{% if editing %}Update the task details.{% else %}Create a new study task.{% endif %}{% endblock %}
 
@@ -38,10 +38,17 @@
             <label>Estimated Study Time (minutes)</label>
             {{ form.estimated_time }}
         </div>
+        
+        <div class="form-group">
+            <label>Reminder Time (optional)</label>
+            {{ form.reminder_time }}
+            {% if form.reminder_time.errors %}<p class="error-text">{{ form.reminder_time.errors.0 }}</p>{% endif %}
+        </div>
 
         <div class="form-actions">
             <a href="{% url 'planner:tasks' %}" class="btn btn-secondary">Cancel</a>
             <button type="submit" class="btn btn-primary">
+                <i class="fa-solid fa-floppy-disk"></i>
                 {% if editing %}Update Task{% else %}Save Task{% endif %}
             </button>
         </div>

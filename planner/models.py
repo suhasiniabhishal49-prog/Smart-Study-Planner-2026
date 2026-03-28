@@ -33,6 +33,7 @@ class Task(models.Model):
     deadline = models.DateTimeField()
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='Pending')
     estimated_time = models.IntegerField(default=30, help_text='Estimated time in minutes')
+    reminder_time = models.DateTimeField(blank=True, null=True, help_text='Time to send a reminder')
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

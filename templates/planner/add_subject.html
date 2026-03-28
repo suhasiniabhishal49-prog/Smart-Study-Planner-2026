@@ -1,5 +1,5 @@
 {% extends 'planner/base.html' %}
-{% block title %}Add Subject - PW Study{% endblock %}
+{% block title %}Add Subject - Giggle Planet Study{% endblock %}
 {% block header_title %}Add Subject{% endblock %}
 {% block header_subtitle %}Create a new study area.{% endblock %}
 
@@ -28,7 +28,9 @@
 
         <div class="form-actions">
             <a href="{% url 'planner:subjects' %}" class="btn btn-secondary">Cancel</a>
-            <button type="submit" class="btn btn-primary">Save Subject</button>
+            <button type="submit" class="btn btn-primary">
+                <i class="fa-solid fa-floppy-disk"></i> Save Subject
+            </button>
         </div>
     </form>
 </div>

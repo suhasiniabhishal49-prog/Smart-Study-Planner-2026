@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
 from django.utils import timezone
 from datetime import timedelta
-from django.db.models import Case, When, Value, IntegerField
+from django.db.models import Case, When, Value, IntegerField, Q
 
 from .models import Subject, Task
 from .forms import UserRegistrationForm, SubjectForm, TaskForm
@@ -74,6 +74,14 @@ def dashboard(request):
     today_tasks = pending_tasks_qs.filter(deadline__date=today)
     upcoming_tasks = pending_tasks_qs.filter(deadline__gte=timezone.now()).order_by('deadline')[:5]
 
+    # Reminder Logic: tasks that are Pending AND either (overdue) OR (deadline within next 24 hours OR reminder_time passed)
+    now = timezone.now()
+    reminders = pending_tasks_qs.filter(
+        Q(deadline__lt=now) | 
+        Q(deadline__lte=now + timedelta(days=1)) |
+        Q(reminder_time__lte=now)
+    ).order_by('deadline')[:3]
+
     context = {
         'total_tasks': all_tasks.count(),
         'completed_tasks': completed_tasks,
@@ -81,6 +89,7 @@ def dashboard(request):
         'overdue_tasks': overdue_tasks,
         'today_tasks': today_tasks,
         'upcoming_tasks': upcoming_tasks,
+        'reminders': reminders,
     }
     return render(request, 'planner/dashboard.html', context)
 
